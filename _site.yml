@@ -13,7 +13,6 @@ navbar:
       href: blog.html
     - text: "Data Science Projects"
       menu:
-        menu:
         - text: "Project #1"
           href: data_sci_1.html
         - text: "Project #2"
