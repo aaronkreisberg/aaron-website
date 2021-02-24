@@ -12,5 +12,14 @@ navbar:
     - text: "Blog"
       href: blog.html
     - text: "Data Science Projects"
-      href: data_sci.html
+      menu:
+        menu:
+        - text: "Project #1"
+          href: data_sci_1.html
+        - text: "Project #2"
+          href: data_sci_2.html
+        - text: "Project #3"
+          href: data_sci_3.html
+        - text: "Project #4"
+          href: data_sci_4.html
 output: distill::distill_article
