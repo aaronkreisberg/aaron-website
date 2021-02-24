@@ -1,7 +1,7 @@
 ---
-title: "About Me"
-description: |
-  A little bit more about myself
+title: "A Little Bit More About Myself"
+
+  
 ---
 
 
@@ -12,12 +12,9 @@ The natural world has given much to me personally and professionally. I was fort
 Outdoor recreation, islands, and birding are my major interests outside of school. Prior to Bren I was able to spend to spend five months traveling New Zealand where I also got to experience work as a dishwasher and a housekeeper.Being back in the Goleta area is made all the better by proximity to Devereux Slough, one of my favorite locations in Santa Barbara County. 
 
 
-Another one of my favorite places: Scorpion Ranch, Santa Cruz Island, Channel Islands National Park
-
 ---
-image: "Scorp.jpg"
+image: "plover.JPG"
 ---
-
 ## Experience & Projects
 
 Beyond considerable experience in the outdoor recreation field, I have worked in a variety of field work and management positions for habitat restoration and conservation-related projects. I have experience working with invasive species removal and native vegetation restoration at Coal Oil Point Reserve (COPR), the UCSB campus, the Santa Ynez River, the Santa Clara River, Vandenberg Air Force Base, Edwards Air Force Base, Los Padres National Forest, and Angeles National Forest. As a volunteer, I have participated in conservation projects on several Channel Islands.

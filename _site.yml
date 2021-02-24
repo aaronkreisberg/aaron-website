@@ -14,7 +14,7 @@ navbar:
     - text: "Data Science Projects"
       menu:
         - text: "Project #1"
-          href: data_sci_1.html
+          href: kreisberg_warblers.html
         - text: "Project #2"
           href: data_sci_2.html
         - text: "Project #3"
