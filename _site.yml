@@ -13,5 +13,4 @@ navbar:
       href: blog.html
     - text: "Data Science Projects"
       href: data_sci.html
-  
 output: distill::distill_article
