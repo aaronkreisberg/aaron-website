@@ -1,7 +1,7 @@
 ---
-title: "Birds"
+title: "Spatial Analysis"
 description: |
-  My first blog post.
+  Spatial analysis of 2008 California oil spills.
 author:
   - name: Aaron Kreisberg
 date: 2021-02-24
@@ -14,10 +14,4 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
-Here is a picture of a snowy plover:
-
----
-image: "plover.JPG"  
----
 

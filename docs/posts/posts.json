@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-02-24-warblers-analysis/",
+    "title": "Warblers Analysis",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Aaron Kreisberg",
+        "url": {}
+      }
+    ],
+    "date": "2021-02-24",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-02-24T10:05:20-08:00",
+    "input_file": {}
+  },
+  {
     "path": "posts/2021-02-24-welcome/",
     "title": "Birds",
     "description": "My first blog post.",
@@ -15,22 +32,5 @@
     "preview": {},
     "last_modified": "2021-02-24T09:49:05-08:00",
     "input_file": {}
-  },
-  {
-    "path": "posts/2021-02-24-warblers-analysis/",
-    "title": "Warblers Analysis",
-    "description": "A short description of the post.",
-    "author": [
-      {
-        "name": "Aaron Kreisberg",
-        "url": {}
-      }
-    ],
-    "date": "2021-02-24",
-    "categories": [],
-    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
-    "preview": {},
-    "last_modified": "2021-02-24T10:05:20-08:00",
-    "input_file": "warblers-analysis.utf8.md"
   }
 ]
