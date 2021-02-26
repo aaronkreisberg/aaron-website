@@ -37,7 +37,7 @@ library(broom) #broom is read in with library()
 Warbler data frame is wrangled using the filter() from the dplyr package  
 
 ```{r}
-warbler_data <- read_csv(here("warblers-analysis_file", "bt_warblers.csv")) #Read in the warbler data using here()
+warbler_data <- read_csv(here("warblers-analysis_files", "bt_warblers.csv")) #Read in the warbler data using here()
 
 warblers_winglength_mass <-warbler_data %>% 
   dplyr::filter(mass != "-99.99") %>% 

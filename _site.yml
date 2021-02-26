@@ -1,7 +1,7 @@
 name: "."
 title: "Aaron Kreisberg"
 description: |
-  Aaron Kreisberg
+  Aaron Kreisberg's Github Webpage
 output_dir: "docs"
 navbar:
   right:
