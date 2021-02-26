@@ -1,18 +1,11 @@
 ---
-title: "Warblers Analysis"
-description: |
-  This is an analysis of Black-Throated Blue Warblers.
-author:
-  - name: Aaron Kreisberg
-    url: {}
-date: 2021-02-24
+title: "kreisberg_warblers"
+author: "Aaron Kreisberg"
+date: "12/10/2020"
 output:
-  distill::distill_article:
-    self_contained: false
+  html_document:
     code_folding: hide
 ---
-
-
 # Exploration of Black-Throated Blue Warblers at Hubbard Brook Experimental Forest, 1986-2010
 
 ## Set-up and Data Wrangling
@@ -36,8 +29,8 @@ library(broom) #broom is read in with library()
 
 Warbler data frame is wrangled using the filter() from the dplyr package  
 
-```{r}
-warbler_data <- read_csv(here("warblers-analysis_file", "bt_warblers.csv")) #Read in the warbler data using here()
+```{r, include=FALSE}
+warbler_data <- read_csv(here("exam_data", "bt_warblers.csv")) #Read in the warbler data using here()
 
 warblers_winglength_mass <-warbler_data %>% 
   dplyr::filter(mass != "-99.99") %>% 
@@ -57,7 +50,7 @@ warblers_filtered <- warbler_data %>%
 
 Warbler wing length is explored in relation to warbler mass, using various exploratory visualizations. A visualization of warbler length in relation to bird mass is displayed, with
 
-```{r}
+```{r, include=FALSE}
 #Exploratory histograms and qqplots to examine tendency, normality, and relationships between variables.
 ggplot(data = warblers_winglength_mass, aes(x = mass)) +
   geom_histogram() 
@@ -100,7 +93,7 @@ ggplot(data = warblers_winglength_mass, aes(x = wing_r, y = mass, color = sex)) 
   
 ```
 
-```{r}
+```{r, include=FALSE}
 ggplot(data = warblers_filtered, aes(x = wing_r, y = mass, color = sex)) +
   geom_point() +
   facet_wrap(~age_banded)
@@ -122,7 +115,7 @@ ggplot(data = warblers_filtered, aes(x = tarsus1, y = mass, color = sex)) +
 
 ```
 
-```{r}
+```{r, include = FALSE}
 #Visualization using geom_boxplot() and geom_jitter(), with color indicating sex and plots faceted by elevation of capture
 ggplot(data = warblers_filtered, aes(x = bill_depth, y = mass, color = sex)) +
   geom_boxplot() +
@@ -135,7 +128,7 @@ ggplot(data = warblers_filtered, aes(x = bill_depth, y = mass, color = sex)) +
 
 A visualization of warbler bill culmen length (in millimeters) relative to bid mass (in grams).
 
-```{r}
+```{r, warning=FALSE}
 #Visualization using geom_violin() and geom_point(), with color indicating sex and plots faceted by elevation of bird capture
 ggplot(data = warblers_filtered, aes(x = bill_culmen, y = tarsus1, color = sex)) +
   geom_violin() +
@@ -150,7 +143,7 @@ ggplot(data = warblers_filtered, aes(x = bill_culmen, y = tarsus1, color = sex))
 
 GGpairs() is used to explore distributions of various variables in the warbler data to ensure that data is normally distributed
 
-```{r}
+```{r, include = FALSE}
 #Ggpairs() is used to examine warbler data in relation to all variables. 
 warblers_filtered %>% 
   select(sex:wing_r) %>% 
@@ -166,7 +159,7 @@ warblers_filtered %>%
 
 Multiple linear regression is performed under various scenarios and then models are assessed for fit using AIC
 
-```{r}
+```{r, include = FALSE}
 
 warblerLM <- lm(mass ~ wing_r + sex, data = warblers_filtered) # Model with wing length and sex
 AIC(warblerLM)
@@ -248,9 +241,3 @@ Mass = `r round(warblerLM7_tidy$estimate[1], digits = 3)` + `r round(warblerLM7_
 
 ## Works Cited
 - Rodenhouse, N., R. Holmes, S. Sillett, and M. Webster. 2019. Black-throated Blue Warbler capture histories, Hubbard Brook Experimental Forest, 1986 - 2010 ver 4. Environmental Data Initiative. https://doi.org/10.6073/pasta/ea985022acfdb76cd7beeaf8da6c39b1
-
-Distill is a publication format for scientific and technical writing, native to the web.
-
-Learn more about using Distill at <https://rstudio.github.io/distill>.
-
-
