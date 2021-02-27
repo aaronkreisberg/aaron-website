@@ -1,0 +1,64 @@
+---
+name: Aaron
+surname: Kreisberg
+position: "Master's Student"
+address: "Bren School of Environmental Science & Management"
+phone: +805 679 1578
+www: https://aaronkreisberg.github.io/aaron-website/
+email: "aaronkreisberg@ucsb.edu"
+twitter: https://twitter.com/ajkberg90
+github: https://github.com/aaronkreisberg
+linkedin: https://www.linkedin.com/in/aaron-kreisberg-84358a1bb/
+date: "`r format(Sys.time(), '%B %Y')`"
+output: 
+  vitae::latexcv:
+    theme: classic
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(vitae)
+```
+
+
+# Education
+
+```{r}
+library(tibble)
+tribble(
+  ~ Degree, ~ Year, ~ Institution, 
+  "Bachelor of Science, Hydrological Sciences & Policy & Bachelor of Arts, History of Public Policy", "2012", "University of California, Santa Barbara",
+  "Master of Environmental Science and Management ", "2022", "Bren School of Environmental Science & Management – University of California, Santa Barbara (UCSB)"
+) %>% 
+  detailed_entries(Degree, Year, Institution)
+```
+
+# Management Experience
+
+```{r}
+tribble(
+  ~Year, ~Type, ~Desc,
+  1903, "Physics", "Awarded for her work on radioactivity with Pierre Curie and Henri Becquerel",
+  1911, "Chemistry", "Awarded for the discovery of radium and polonium"
+) %>% 
+  brief_entries(
+    glue::glue("Nobel Prize in {Type}"),
+    Year, 
+    Desc
+  )
+```
+
+# Conservation Field Work Experience
+
+```{r}
+library(dplyr)
+knitr::write_bib(c("vitae", "tibble"), "packages.bib")
+
+bibliography_entries("packages.bib") %>%
+  arrange(desc(author$family), issued)
+```
+
+# Skills, Certifications, & Travel
+Computer Skills: RStudio, GitHub, GIS, Microsoft Office Suite (Word, Excel, PowerPoint), Google Suite
+Certifications: Wilderness First Responder, Wilderness Medical Associates International (Exp. 9/23)
+Travel: Working Holiday to New Zealand (11/19–3/20) and work in Queen Charlotte Sound (12/19–2/20)

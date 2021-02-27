@@ -1,0 +1,73 @@
+---
+title: "Resume"
+description: |
+  Aaron Kreisberg's Resume
+author:
+  - name: Aaron Kreisberg
+    url: https://aaronkreisberg.github.io/aaron-website/
+    affiliation: UCSB Bren School of Environmental Science & Management
+    affiliation_url: https://bren.ucsb.edu/
+date: "`r Sys.Date()`"
+output: distill::distill_article
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+vitae::markdowncv()
+```
+
+**EDUCATION**
+
+Master of Environmental Science and Management (Expected June 2022)			                
+Bren School of Environmental Science & Management – University of California, Santa Barbara (UCSB)	
+Specialization: Conservation Planning										
+Selected Courses: Geog. Information Systems (current), Principles of Conservation Planning (planned) 
+
+Bachelor of Science, Hydrological Sciences & Policy | Bachelor of Arts, History of Public Policy (June 2012)                                                                                                                                                           
+University of California, Santa Barbara (UCSB)
+	Emphasis: Policy | Senior Thesis: The Williamson Act—Protecting California’s Agricultural Heritage
+Selected Courses: Ecology and Management of California Wildlands, Advanced Water Policy
+
+**MANAGEMENT EXPERIENCE**
+
+Island Manager (8/17–11/19) | Tour Guide (3/13–11/19, 6/20–Present) 
+Santa Barbara Adventure Company, Santa Barbara, CA 
+•	Managed 20+ employees for guided kayaking concession in Channel Islands National Park (CINP) 
+•	Oversaw programmatic risk management, ensured customer service and interpretative standards
+•	Led 1000+ trips as a tour guide on a variety of trips, leading sea cave kayaking trips of Santa Cruz Island in CINP and trips (coastal kayaking, bicycle tours, wine tours, outdoor education) around Santa Barbara
+
+Habitat Restoration Manager (1/14–6/18) | Board Member (5/15–9/18)
+Santa Barbara Audubon Society, Santa Barbara, CA 
+•	Planned, obtained grant funding, and oversaw the 3-year Dune Swale Pond Fire Recovery Project, a $35,000 budgeted habitat restoration project of 6 acres of fire impacted wetland at Coal Oil Point Reserve
+•	Recruited 30+ student interns and coordinated 20+ volunteer workdays, with as many as 40+ participants 
+•	Oversaw and trained interns and volunteers in exotic species removal (B. nigra, F. vulgare, D. odorata), planting native species to enhance wetland function and habitat quality and vegetation monitoring
+
+**CONSERVATION FIELD WORK EXPERIENCE**
+
+Restoration Field Technician – Channel Islands Restoration, Santa Barbara, CA (4/20–8/20)
+•	Conducted removal of non-native species, including noxious weeds star-thistle (Centaurea), giant reed (A. donax), and Tamarix for 5 projects across Santa Barbara, Ventura, and Los Angeles counties
+•	Collaborated with clients including Santa Barbara County, The Nature Conservancy (TNC), Santa Clara River Conservancy, SoCal Gas, Naval Base Ventura County, Los Padres and Angeles National Forests
+
+Environmental Field Technician – ManTech SRS Technologies, Inc., Lompoc, CA (1/17–3/17) 
+•	Contributed to restoration projects on Vandenberg Air Force Base and Edwards Air Force Base 
+•	Removed invasive Tamarix, collected and planted native willow cuttings from Sequoia National Forest to enhance habitat on military properties, and monitoring transplant success to achieve project goals
+
+Habitat Specialist – Wildlands Conservation Science, Lompoc, CA (10/16–12/16)
+•	Treated invasive Giant Reed (A. donax) populations on the Santa Ynez River via UTV, UAV, and GPS 
+•	Kept detailed records of treatments, working under contract with Santa Barbara County 
+
+Cheadle Center for Biodiversity and Ecological Restoration (CCBER), UCSB, Santa Barbara, CA 
+Laboratory Assistant (8/12–2/13) | Student Worker (4/11–2/13) | CCBER Restoration Intern (9/10–3/11)
+•	Supervised 5 to 10 students/volunteers at 5 restoration sites under CCBER’s Natural Areas Steward
+•	Participated in CCBER introductory restoration internship for academic credit and paid stipend internship the following academic quarter and received an introduction to habitat restoration and plant identification
+
+**SKILLS, CERTIFICATIONS, & TRAVEL** 
+
+Computer Skills: RStudio, GitHub, GIS, Microsoft Office Suite (Word, Excel, PowerPoint), Google Suite
+Certifications: Wilderness First Responder, Wilderness Medical Associates International (Exp. 9/23)
+Travel: Working Holiday to New Zealand (11/19–3/20) and work in Queen Charlotte Sound (12/19–2/20)
+
+
+
+
+
