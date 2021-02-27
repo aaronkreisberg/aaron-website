@@ -8,10 +8,121 @@ date: 2021-02-24
 output:
   distill::distill_article:
     self_contained: false
+    code_folding: hide
+    
 ---
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+# Spatial Exploration of 2008 California Oil Spills
+
+### Introduction
+
+In this document 2008 oil spills across California will be visualized using R. Information is from California Department of Fish and Wildlife (CDFW). 
+
+```{r setup, echo = TRUE, include=FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse) #Read in the tidyverse
+library(here) #Read in the here package
+library(janitor) #Read in the janitor package
+library(sf) #Read in sf
+library(tmap) #Read in tmap
 ```
+
+Data from CDFW is read in and stored as "ca_spills". This data can be visualized in conjunction with a data that represents California's counties and their borders (CA_Counties_TIGER2016). "CA_Counties_TIGER2016" is stored as "ca_counties".
+
+```{r, message = FALSE, warning = FALSE}
+ca_spills <- read_sf(here("_posts", "2021-02-24-welcome", "data", "ds394"), layer = "ds394") %>% 
+  clean_names()
+
+ca_counties <- read_sf(here("_posts", "2021-02-24-welcome", "data", "ca_counties"), layer = "CA_Counties_TIGER2016") %>% 
+  clean_names() %>% 
+  select(name)
+
+ca_counties <- st_transform(ca_counties, st_crs(ca_spills)) #Convert ca_counties from NAD84 to NAD83 so CRS matches
+```
+
+It is important when when working with spatial data that the Coordinate Reference System (CRS) of datasets match, otherwise it can hinder visualization and results. To accomplish this, st_transform() is used to convert the CRS of "ca_counties" from NAD84 to NAD83. The CRS can be double checked with st_crs().
+
+```{r, include = FALSE}
+st_crs(ca_spills) #NAD83
+
+st_crs(ca_counties) #NAD83
+```
+
+### Exploratory Data Visualization
+
+Using ggplot() and geom_sf() oil spills in California can be visualized.
+
+```{r}
+
+# Visualize with ggplot() and geom_sf():
+ggplot() +
+  geom_sf(data = ca_counties) +
+  geom_sf(data = ca_spills) +
+  labs(title = "2008 California Oil Spills")
+
+```
+**Figure 1**: 2008 Oil Spills in California. Data: California Department of Fish and Wildlife 
+
+
+### Interactive Visualization
+
+Using the tmap package, an interactive visualization can be produced. Numbers for data points represent DFG Control numbers (CAFW was previously California Deparmtent of Fish and Game). OES is the Office of Emergency Services and each spill has OES number.
+
+```{r, message = FALSE}
+tmap_mode("view")
+
+tm_shape(ca_spills) +
+  tm_dots(col = "inlandmari",
+          popup.vars = c("Spill Date:" = "dateofinci",
+                         "OES Number:" = "oesnumber",
+                         "City:" = "localecity",
+                         "County:" = "localecoun"),
+          title = "Spill Type")
+```
+**Figure 2**: Interactive Map of 2008 California Oil Spills. Spills are classified as either marine or inland. Spills are further classified by Office of Emergency Services number. City and county of occurrence are also noted. Data: California Department of Fish and Wildlife 
+
+
+
+### Chloropleth Map of Inland Spills by County
+
+To examine spills classified as inland spills (not occurring on the ocean or  waterbodies connected to the ocean), the "ca_spills" can be filtered using the filter(). This produces a dataframe called "ca_inlandspills" To create a chloropleth map, the "ca_inlandspills" dataframe is joined with the "ca_counties" dataframe using st_join(). Spills and counted by county using the count().
+
+```{r}
+ ca_inlandspills <- ca_spills %>% 
+  filter(inlandmari == "Inland") 
+
+ca_inlandspills_join <- ca_counties %>% 
+  st_join(ca_inlandspills)
+
+ca_inlandspills_counts <- ca_inlandspills_join %>% 
+  count(name)
+
+
+```
+
+
+```{r}
+ggplot() +
+  geom_sf(data = ca_inlandspills_counts, aes(fill = -n, group = name)) +
+  theme_minimal() +
+  labs(
+    title = "2008 Inland Oil Spills in California by County",
+    fill = "Number of 2008 oil spills",
+    caption = "Data: CA Department of Fish and Wildlife")
+```
+
+**Figure 3**: Chloropleth Map of 2008 Inland California Oil Spills by County.  Data: California Department of Fish and Wildlife
+
+### Conclusions
+
+Some conclusions from the above visualizations:
+
+-2008 oil spills in California were concentrated in areas with major ports, particularly the Bay Area and Los Angeles county.
+
+-There was a higher quantity of inland oil spills compared to oil spills classified as marine.
+
+### Citation
+
+Oil Spill Incident Tracking [ds394], Edition 2008, Publication date 2009-07-23. Marine data are entries from OSPR Oil Spill Prevention Specialists (OSPS) and is accurate to 98%. Inland data is based on California Emergency Management Agency (Cal EMA) reports and is only as accurate as the reporting party.Credits: Cal EMA, DFG-OSPR
 
