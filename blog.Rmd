@@ -2,3 +2,9 @@
 title: "Data Science Portfolio"  
 listing: posts 
 ---
+
+```{r echo = FALSE, message = FALSE}
+knitr::include_graphics("./images/Sands_SNPL.jpg")
+```
+
+Western Snowy Plover at Sands Beach

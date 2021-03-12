@@ -16,3 +16,7 @@ site: distill::distill_website
 ---
  
 I'm Aaron Kreisberg, a student at UC Santa Barbara's Bren School of Environmental Science & Management. I look forward to continuing to develop my data science, statistical analysis, and computer skills to further a career in conservation.
+
+```{r}
+knitr::include_graphics("./images/NCOS_BUOW.jpg")
+```

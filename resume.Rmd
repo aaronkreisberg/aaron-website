@@ -15,3 +15,8 @@ output: distill::distill_article
 knitr::include_graphics("./images/AaronKreisberg_Resume.pdf")
 ```
 
+```{r echo = FALSE, message = FALSE}
+knitr::include_graphics("./images/NCOS_BUOW.jpg")
+```
+
+Burrowing Owl at North Campus Open Space
