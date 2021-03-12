@@ -15,4 +15,4 @@ output:
 site: distill::distill_website
 ---
  
-I'm Aaron Kreisberg, a first year master's student at UC Santa Barbara's Bren School of Environmental Science & Management. I look forward to continuing to develop my data science, statistical analysis, and coding skills to further a career in conservation.
+I'm Aaron Kreisberg, a student at UC Santa Barbara's Bren School of Environmental Science & Management. I look forward to continuing to develop my data science, statistical analysis, and computer skills to further a career in conservation.
