@@ -15,9 +15,14 @@ Outdoor recreation, islands, and birding are my major interests outside of schoo
 
 
 ---
-image: "plover.JPG"
+```{r}
+knitr::include_graphics("./images/Scorp.jpg")
+```
+Scorpion Anchorage, Santa Cruz Island, Channel Islands National Park
+
 ---
 ## Experience & Projects
+
 
 At the Bren School I completed ESM 206 (Statistics & Data Analysis) and ESM 244 (Advanced Data Analysis). I became proficient in using the r programming language and working in the RStudio development environment. Additional coursework completed includes ESM 263 (Geographic Information Systems), where I became proficient in utilizing QGIS, a free and open-source geographic information system (GIS) application. Analysis and visualization of geospatial data is of particular interest to me.
 
