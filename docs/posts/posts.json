@@ -1,19 +1,70 @@
 [
   {
-    "path": "posts/2021-02-24-warblers-analysis/",
-    "title": "Warblers Analysis",
-    "description": "This is an analysis of Black-Throated Blue Warblers.",
+    "path": "posts/2021-03-12-monolake/",
+    "title": "mono_lake",
+    "description": "A short description of the post.",
     "author": [
       {
         "name": "Aaron Kreisberg",
         "url": {}
       }
     ],
-    "date": "2021-02-24",
+    "date": "2021-03-12",
     "categories": [],
-    "contents": "\r\nExploration of Black-Throated Blue Warblers at Hubbard Brook Experimental Forest, 1986-2010\r\nSet-up and Data Wrangling\r\nSet-up Code Chunk\r\nVarious packages are read in to support exploration and visualization of the black-throated blue warbler data\r\nData Wrangling\r\nWarbler data frame is wrangled using the filter() from the dplyr package\r\n\r\n\r\nhide\r\n\r\nwarbler_data <- read_csv(here(\"_posts\", \"2021-02-24-warblers-analysis\", \"data\", \"bt_warblers.csv\")) #Read in the warbler data using here()\r\n\r\nwarblers_winglength_mass <-warbler_data %>% \r\n  dplyr::filter(mass != \"-99.99\") %>% \r\n  dplyr::filter(wing_r != \"-99.99\") #The warbler data is filtered to remove missing values from the 'mass' and 'wing_r' data frames (filter(' ' != \"-99.99\"))\r\n\r\nwarblers_filtered <- warbler_data %>% \r\n  dplyr::filter(mass != \"-99.99\") %>% \r\n  dplyr::filter(wing_r != \"-99.99\") %>% \r\n  dplyr::filter(bill_depth != \"-99.99\") %>% \r\n  dplyr::filter(bill_culmen != \"-99.99\") %>% \r\n  dplyr::filter(tarsus1 != \"-99.99\")  #The warbler data is filtered to remove missing values from the all numeric data frames: 'bill_depth', 'bill-culmen', 'mass', 'tarsus', and 'wing_r' (filter(' ' != \"-99.99\"))\r\n\r\n\r\n\r\nExploratory Data Visualizations\r\nMass versus Wing Length\r\nWarbler wing length is explored in relation to warbler mass, using various exploratory visualizations. A visualization of warbler length in relation to bird mass is displayed, with\r\n\r\n\r\nhide\r\n\r\n#Exploratory histograms and qqplots to examine tendency, normality, and relationships between variables.\r\nggplot(data = warblers_winglength_mass, aes(x = mass)) +\r\n  geom_histogram() \r\n\r\n\r\n\r\nhide\r\n\r\nggplot(data = warblers_winglength_mass, aes(sample = mass)) +\r\n  geom_qq() \r\n\r\n\r\n\r\nhide\r\n\r\nggplot(data = warblers_winglength_mass, aes(x = mass, color = sex)) +\r\n  geom_histogram() +\r\n  facet_wrap(~age_banded)\r\n\r\n\r\n\r\nhide\r\n\r\nggplot(data = warblers_winglength_mass, aes(sample = mass, color = sex)) +\r\n  geom_qq() +\r\n  facet_wrap(~age_banded)\r\n\r\n\r\n\r\nhide\r\n\r\nggplot(data = warblers_winglength_mass, aes(x = wing_r)) +\r\n  geom_histogram() \r\n\r\n\r\n\r\nhide\r\n\r\nggplot(data = warblers_winglength_mass, aes(sample = wing_r)) +\r\n  geom_qq() \r\n\r\n\r\n\r\nhide\r\n\r\nggplot(data = warblers_winglength_mass, aes(x = wing_r, color = sex)) +\r\n  geom_histogram() +\r\n  facet_wrap(~age_banded)\r\n\r\n\r\n\r\nhide\r\n\r\nggplot(data = warblers_winglength_mass, aes(sample = wing_r, color = sex)) +\r\n  geom_qq() +\r\n  facet_wrap(~age_banded)\r\n\r\n\r\n\r\n\r\n\r\n\r\nhide\r\n\r\nggplot(data = warblers_winglength_mass, aes(x = wing_r, y = mass, color = sex)) +\r\n  geom_point() +\r\n  facet_wrap(~age_banded)\r\n\r\n\r\n\r\nhide\r\n\r\n#A visualization (ggplot() + geom_point()) of warbler wing length (in millimeters) in relation to bird mass (in grams), with color (aes(, color = sex)) indicating bird sex and the graphs faceted (facet_wrap(~age_banded)) by age of bird at banding.\r\n\r\n\r\n\r\n\r\n\r\nhide\r\n\r\nggplot(data = warblers_filtered, aes(x = wing_r, y = mass, color = sex)) +\r\n  geom_point() +\r\n  facet_wrap(~age_banded)\r\n\r\n\r\n\r\nhide\r\n\r\n#Same visualization as above, just done with warblers that had all data collected.\r\n\r\n\r\n\r\nVisualization II\r\nA visualization of warbler bill depth (in millimeters) relative to wing length (in millimeters).\r\n\r\n\r\nhide\r\n\r\n#Visualization using geom_boxplot() and geom_jitter(), with color indicating sex and plots faceted by elevation of capture\r\n\r\nggplot(data = warblers_filtered, aes(x = tarsus1, y = mass, color = sex)) +\r\n  geom_boxplot() +\r\n  geom_jitter(alpha = 0.25) +\r\n  facet_wrap(~elevation)\r\n\r\n\r\n\r\n\r\n\r\n\r\nhide\r\n\r\n#Visualization using geom_boxplot() and geom_jitter(), with color indicating sex and plots faceted by elevation of capture\r\nggplot(data = warblers_filtered, aes(x = bill_depth, y = mass, color = sex)) +\r\n  geom_boxplot() +\r\n  geom_jitter(alpha = 0.25) +\r\n  facet_wrap(~elevation)\r\n\r\n\r\n\r\n\r\nVisualization III\r\nA visualization of warbler bill culmen length (in millimeters) relative to bid mass (in grams).\r\n\r\n\r\nhide\r\n\r\n#Visualization using geom_violin() and geom_point(), with color indicating sex and plots faceted by elevation of bird capture\r\nggplot(data = warblers_filtered, aes(x = bill_culmen, y = tarsus1, color = sex)) +\r\n  geom_violin() +\r\n  geom_point(alpha = 0.25) +\r\n  facet_wrap(~elevation)\r\n\r\n\r\n\r\n\r\nStatistical Analysis and Diagnostics\r\nModel Fit\r\nGGpairs() is used to explore distributions of various variables in the warbler data to ensure that data is normally distributed\r\n\r\n\r\nhide\r\n\r\n#Ggpairs() is used to examine warbler data in relation to all variables. \r\nwarblers_filtered %>% \r\n  select(sex:wing_r) %>% \r\n  ggpairs(aes(color = sex))\r\n\r\n\r\n\r\nhide\r\n\r\n#Ggpairs() is used to examine warbler data in relation to numeric variables. \r\nwarblers_filtered %>% \r\n  select(sex, bill_depth:wing_r) %>% \r\n  ggpairs(aes(color = sex))\r\n\r\n\r\n\r\n\r\nAkaike Information Criterion (AIC)\r\nMultiple linear regression is performed under various scenarios and then models are assessed for fit using AIC\r\n\r\n\r\nhide\r\n\r\nwarblerLM <- lm(mass ~ wing_r + sex, data = warblers_filtered) # Model with wing length and sex\r\nAIC(warblerLM)\r\n\r\n\r\n[1] 1201.902\r\n\r\nhide\r\n\r\nwarblerLM2 <- lm(mass ~ wing_r + sex + elevation + age_banded, data = warblers_filtered) # Model with wing length, sex, elevation of capture, and age at banding.\r\nAIC(warblerLM2)\r\n\r\n\r\n[1] 1206.158\r\n\r\nhide\r\n\r\nwarblerLM3 <- lm(mass ~ wing_r + sex + age_banded, data = warblers_filtered) # Model with wing length, sex, and age at banding\r\nAIC(warblerLM3)\r\n\r\n\r\n[1] 1205.704\r\n\r\nhide\r\n\r\nwarblerLM4 <- lm(mass ~ wing_r + sex + elevation, data = warblers_filtered) # Model with wing length, sex, and elevation of capture\r\nAIC(warblerLM4)\r\n\r\n\r\n[1] 1202.408\r\n\r\nhide\r\n\r\nwarblerLM5 <- lm(mass ~ wing_r + sex + bill_depth + bill_culmen + tarsus1, data = warblers_filtered) # Model with wing length, sex, bill depth, culmen length, and tarsus length.\r\nAIC(warblerLM5)\r\n\r\n\r\n[1] 1193.2\r\n\r\nhide\r\n\r\nwarblerLM6 <- lm(mass ~ wing_r + sex + bill_depth + bill_culmen, data = warblers_filtered) # Model with wing length, sex, bill depth, and culmen length.\r\nAIC(warblerLM6)\r\n\r\n\r\n[1] 1194.468\r\n\r\nhide\r\n\r\nwarblerLM7 <- lm(mass ~ wing_r + sex + bill_culmen + tarsus1, data = warblers_filtered) # Model with wing length, sex, culmen length, and tarsus length.\r\nAIC(warblerLM7)\r\n\r\n\r\n[1] 1191.778\r\n\r\nhide\r\n\r\nwarblerLM8 <- lm(mass ~ wing_r + sex + tarsus1, data = warblers_filtered) # Model with wing length, sex, and tarsus length.\r\nAIC(warblerLM8)\r\n\r\n\r\n[1] 1198.947\r\n\r\nhide\r\n\r\nwarblerLM9 <- lm(mass ~ wing_r + sex + bill_depth, data = warblers_filtered) # Model with wing length, sex, and bill depth.\r\nAIC(warblerLM9)\r\n\r\n\r\n[1] 1201.881\r\n\r\nhide\r\n\r\nwarblerLM10 <- lm(mass ~ wing_r + sex + bill_culmen, data = warblers_filtered) # Model with wing length, sex, and culmen length.\r\nAIC(warblerLM10)\r\n\r\n\r\n[1] 1193.554\r\n\r\nhide\r\n\r\nwarblerLM11 <- lm(mass ~ wing_r + sex + bill_depth + tarsus1, data = warblers_filtered)# Model with wing length, sex, bill depth, culmen length, and tarsus length.\r\nAIC(warblerLM11)\r\n\r\n\r\n[1] 1199.775\r\n\r\nModel Assumptions and Diagnostics\r\nAssess model fit, residuals, and assumptions using plot() function for diagnostics\r\n\r\n\r\nhide\r\n\r\n#\r\nAICwarblerLM7 <- AIC(warblerLM7)\r\nAICwarblerLM7\r\n\r\n\r\n[1] 1191.778\r\n\r\nhide\r\n\r\nsummary(warblerLM7)\r\n\r\n\r\n\r\nCall:\r\nlm(formula = mass ~ wing_r + sex + bill_culmen + tarsus1, data = warblers_filtered)\r\n\r\nResiduals:\r\n    Min      1Q  Median      3Q     Max \r\n-1.7692 -0.3675 -0.0190  0.3678  4.8561 \r\n\r\nCoefficients:\r\n            Estimate Std. Error t value Pr(>|t|)    \r\n(Intercept)  3.59556    1.13934   3.156  0.00167 ** \r\nwing_r       0.07085    0.01509   4.697 3.22e-06 ***\r\nsexM        -1.03383    0.06811 -15.179  < 2e-16 ***\r\nbill_culmen  0.14199    0.04691   3.027  0.00257 ** \r\ntarsus1      0.06499    0.03353   1.939  0.05297 .  \r\n---\r\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\r\n\r\nResidual standard error: 0.5881 on 662 degrees of freedom\r\nMultiple R-squared:  0.3299,    Adjusted R-squared:  0.3259 \r\nF-statistic: 81.49 on 4 and 662 DF,  p-value: < 2.2e-16\r\n\r\nhide\r\n\r\nplot(warblerLM7)\r\n\r\n\r\n\r\nhide\r\n\r\nvif(warblerLM7)\r\n\r\n\r\n     wing_r         sex bill_culmen     tarsus1 \r\n   2.214304    2.235394    1.013604    1.050240 \r\n\r\nhide\r\n\r\nwarblerLM7_tidy <- tidy(warblerLM7)\r\n\r\n\r\n\r\nMultiple Linear Regression\r\n\r\n\r\nhide\r\n\r\nstargazer(warblerLM7, type = \"html\")\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nDependent variable:\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nmass\r\n\r\n\r\n\r\n\r\nwing_r\r\n\r\n\r\n0.071***\r\n\r\n\r\n\r\n(0.015)\r\n\r\n\r\n\r\n\r\n\r\n\r\nsexM\r\n\r\n\r\n-1.034***\r\n\r\n\r\n\r\n(0.068)\r\n\r\n\r\n\r\n\r\n\r\n\r\nbill_culmen\r\n\r\n\r\n0.142***\r\n\r\n\r\n\r\n(0.047)\r\n\r\n\r\n\r\n\r\n\r\n\r\ntarsus1\r\n\r\n\r\n0.065*\r\n\r\n\r\n\r\n(0.034)\r\n\r\n\r\n\r\n\r\n\r\n\r\nConstant\r\n\r\n\r\n3.596***\r\n\r\n\r\n\r\n(1.139)\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\nObservations\r\n\r\n\r\n667\r\n\r\n\r\nR2\r\n\r\n0.330\r\n\r\n\r\nAdjusted R2\r\n\r\n0.326\r\n\r\n\r\nResidual Std. Error\r\n\r\n\r\n0.588 (df = 662)\r\n\r\n\r\nF Statistic\r\n\r\n\r\n81.487*** (df = 4; 662)\r\n\r\n\r\n\r\n\r\nNote:\r\n\r\n\r\np<0.1; p<0.05; p<0.01\r\n\r\n\r\nhide\r\n\r\n#\r\n\r\n\r\n\r\nMultiple linear regression is performed to create a model for warbler mass in relation to four variable: wing length (in millimeters), sex (male or female), culmen length (in millimeters), and tarsus length (in millimeters).\r\n-The model was assessed for fit in multiple ways, with ggpairs() indicating a normal distribution of all variables.\r\n-AIC was used to determine the proper balance of model fit and variable, with the above mentioned multiple linear regression model yielding the lowest Akaike Information Criterion value (AIC = 1191.78). AIC is a relative measure and is useful in comparing models but needs to b used in conjunction with other assessments.\r\n-When using pairs() to assess the assumptions of the model, all assumptions were met (residuals vs. fitted values/homoscedasticity, normal distribution of the residuals, and cook’s distance of residuals) although there is one warbler data point that is an outlier, a male warbler with a mass of 14.5 grams. Should also be conscious about interaction between predictor variables. Variance Inflation Factor (VIF) values show this to be less likely\r\nDiscussion of Final Model\r\nMass = 3.596 + 0.071(wing_r) -1.034(Male) + 0.142(bill_culmen) + 0.065(tarsus1)\r\nwing_r: The coefficient of 0.071 for wing length (millimeters) indicates that on average, we expect a 0.071 gram increase in warbler mass for each additional millimeter in right wing length.\r\nsex male: The coefficient of -1.034 for males indicates that on average, if all other variables are equal, a male warbler’s mass to be 1.034 less than a female warbler. Female is the reference sex.\r\nbill_culmen: The coefficient of 0.142 for for bill culmen length (millimeters) indicates that on average, we expect a 0.142 gram increase in warbler mass for each additional millimeter of bill culmen length. The culmen goes from the tip of the bill to the feathers at top of head.\r\ntarsus1 Value:The coefficient of 0.065 for tarsus length (millimeters) indicates that on average, we expect a 0.065 gram increase in warbler mass for each additional millimeter of tarsus (foot) length.\r\nIntercept Value: The coefficient value (3.596) means that a female warbler with zero values for all the continuous explanatory variables would have a mass of 3.596 grams, which is not a very useful statement.\r\nWorks Cited\r\nRodenhouse, N., R. Holmes, S. Sillett, and M. Webster. 2019. Black-throated Blue Warbler capture histories, Hubbard Brook Experimental Forest, 1986 - 2010 ver 4. Environmental Data Initiative. https://doi.org/10.6073/pasta/ea985022acfdb76cd7beeaf8da6c39b1\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
-    "preview": "posts/2021-02-24-warblers-analysis/warblers-analysis_files/figure-html5/unnamed-chunk-2-1.png",
-    "last_modified": "2021-02-26T16:21:35-08:00",
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-03-12T15:34:55-08:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2021-03-12-silentspingtextanalysis/",
+    "title": "Silent Spring Text Analysis",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Aaron Kreisberg",
+        "url": {}
+      }
+    ],
+    "date": "2021-03-12",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-03-12T15:34:43-08:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2021-03-12-spatialspill/",
+    "title": "spatial_spill",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Aaron Kreisberg",
+        "url": {}
+      }
+    ],
+    "date": "2021-03-12",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-03-12T15:47:01-08:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2021-03-12-urchins/",
+    "title": "Urchins Analysis",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Aaron Kreisberg",
+        "url": {}
+      }
+    ],
+    "date": "2021-03-12",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-03-12T15:35:05-08:00",
     "input_file": {}
   },
   {
