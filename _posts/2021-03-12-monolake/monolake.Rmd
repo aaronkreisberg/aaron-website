@@ -20,7 +20,20 @@ knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(here)
 library(janitor)
+library(jpeg)
 ```
+
+```{r}
+knitr::include_graphics("./data/mono_lake.jpg")
+```
+Photo by Aaron Kreisberg
+
+
+## Intoduction
+
+The levels of Mono Lake will be wrangled and explored using the tidyverse package. Data will be visualized using ggplot. Find more information about Mono Lake at https://www.monolake.org/learn/stateofthelake/
+
+
 
 
 ```{r, include = FALSE}

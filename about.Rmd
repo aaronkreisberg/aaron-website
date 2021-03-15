@@ -11,7 +11,7 @@ library(jpeg)
 knitr::include_graphics("./images/Scorp.jpg")
 ```
 
-Scorpion Anchorage, Santa Cruz Island, Channel Islands National Park
+Scorpion Anchorage, Santa Cruz Island, Channel Islands National Park-Photo by Aaron Kreisberg
 
 ## Background & Interests
 

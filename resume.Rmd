@@ -19,4 +19,4 @@ knitr::include_graphics("./images/AaronKreisberg_Resume.pdf")
 knitr::include_graphics("./images/NCOS_BUOW.jpg")
 ```
 
-Burrowing Owl at North Campus Open Space
+Burrowing Owl at North Campus Open Space-Photo by Aaron Kreisberg

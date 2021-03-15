@@ -7,4 +7,4 @@ listing: posts
 knitr::include_graphics("./images/Sands_SNPL.jpg")
 ```
 
-Western Snowy Plover at Sands Beach
+Western Snowy Plover at Sands Beach-Photo by Aaron Kreisberg
