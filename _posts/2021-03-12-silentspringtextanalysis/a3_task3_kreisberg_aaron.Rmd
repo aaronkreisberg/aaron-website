@@ -1,0 +1,230 @@
+---
+title: "Text Wrangling and Analysis"
+author: "Aaron Kreisberg"
+date: "2/22/2021"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+# Text Analysis-Silent Spring by Rachel Carson
+
+### Introduction 
+
+Silent Spring by Rachel Carson is one the seminal texts of 20th century. It brought greater environmental awareness regarding chemicals and their impacts. A text and sentiment analysis of Silent Spring can yield some insight on this important book. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse) # Read in the tidyverse
+library(here) # Read in the here package
+library(tidytext) # Read in tidytext package
+library(textdata) # Read in textdata package
+library(pdftools) # Read in pdftools package
+library(ggwordcloud) # Read in ggwordcloud
+library(jpeg) # Read in jpeg
+library(grid) # Read in grid
+
+```
+
+Silent Spring is available for download as free PDF online. Below is page 47 of Silent Spring after reading in the downloaded .pdf using pdf_text(here()).
+
+```{r, cache = TRUE}
+
+silent_spring_text <- pdf_text(here("data", "silent_spring.pdf"))
+
+
+silent_spring_p47 <- silent_spring_text[47]
+silent_spring_p47
+
+```
+
+Before pursing further textual analysis, the text of Silent Spring needs to be converted into a "data.frame()" and the fact that lines are separated by \r also needs to be addressed. Using "str_split()" the text can be broken into individual lines, and further wrangled for analysis using "unnest()" and "mutate(text_full = str_trim())".
+
+```{r}
+silent_spring_tidy <- data.frame(silent_spring_text) %>% 
+  mutate(text_full = str_split(silent_spring_text, pattern = '\\r')) %>% 
+  unnest(text_full) %>% 
+  mutate(text_full = str_trim(text_full)) 
+```
+
+So this textual anlysis is concentrating on the body of Silent Spring, the introduction and post-body text can be removed using "slice()".
+
+```{r}
+silent_spring_df <- silent_spring_tidy %>% 
+  slice(201:6201) 
+     
+  
+```
+
+The text of Silent Spring is converted into tokens with "unnest_tokens()". The number of times words appear is the determined using "count()" and stop words (but, and, the, etc.) are removed using "anti_join(stop_words)".
+
+```{r}
+silent_spring_tokens <- silent_spring_df %>% 
+  unnest_tokens(word, text_full) %>% 
+  dplyr::select(-silent_spring_text)
+
+silent_spring_wordcount <- silent_spring_tokens %>% 
+  count(word)
+
+silent_spring_nonstop_words <- silent_spring_tokens %>% 
+  anti_join(stop_words)
+
+
+nonstop_counts <- silent_spring_nonstop_words %>% 
+  count(word)
+```
+
+To get the top 100 words "arrange() %>% slice(1:100)". The top two words are "chemicals" and "chemical", with "ddt" and "spraying" also making the top 5. 
+
+```{r}
+top100 <- nonstop_counts %>% 
+  arrange(-n) %>% 
+  slice(1:100)
+```
+
+```{r}
+ddt_background <- readJPEG(here("ddt_spraying.jpg"))
+```
+
+
+### Visualizations 
+
+
+A word cloud of the top 100 words is produced using "ggplot() + geom_text_wordcloud".
+
+```{r}
+silent_spring_cloud <- ggplot(data = top100, aes(label = word)) +
+  annotation_custom(rasterGrob(ddt_background, 
+                               width = unit(1,"npc"), 
+                               height = unit(1,"npc")), 
+                    -Inf, Inf, -Inf, Inf) +
+  geom_text_wordcloud(aes(color = n, size = n), shape = "pentagon") +
+  scale_size_area(max_size = 6) +
+  scale_color_gradientn(colors = c("red", "yellow")) +
+  theme_minimal()
+
+silent_spring_cloud
+```
+
+**Figure 1**: Silent Spring Wordcloud. Data: **Silent Spring**, Rachel Carson (1962)
+
+```{r}
+top20 <- top100 %>% 
+  slice(1:20) %>% 
+  group_by(-n) 
+
+ddt_for_me <- readJPEG(here("ddt1.jpg"))
+```
+
+
+A column graph of the Top 20 words in Silent Spring.
+
+```{r}
+silent_spring_column <- ggplot(data = top20, aes(x = reorder(word, n), y = n)) +
+  annotation_custom(rasterGrob(ddt_for_me, 
+                               width = unit(1,"npc"), 
+                               height = unit(1,"npc")), 
+                    -Inf, Inf, -Inf, Inf) +
+  geom_col(aes(alpha = 0), show.legend = FALSE) +
+  scale_colour_manual(
+    values = cols,
+    aesthetics = c("colour", "fill")
+  ) +
+  coord_flip() +
+  labs(title = "Top 20 Word in Silent Spring by Rachel Carson",
+       y = "Count",
+       x = "Word") +
+  theme_classic()
+  
+  
+
+silent_spring_column
+```
+
+**Figure 2**: Silent Spring Top 20 Words Column Plot. Data: **Silent Spring**, Rachel Carson (1962)
+
+
+NRC sentiment analysis with "inner_join(get_sentiments())".
+
+```{r, message = FALSE}
+silent_spring_nrc <- silent_spring_nonstop_words %>% 
+  inner_join(get_sentiments("nrc"))
+
+silent_spring_nrc_counts <- silent_spring_nrc %>% 
+  count(sentiment)
+
+ddt_plane <- readJPEG(here("ddt_plane.jpg"))
+
+ggplot(data = silent_spring_nrc_counts, aes(x = sentiment, y = n, color = "red")) +
+  annotation_custom(rasterGrob(ddt_plane, 
+                               width = unit(1,"npc"), 
+                               height = unit(1,"npc")), 
+                    -Inf, Inf, -Inf, Inf) +
+  geom_col(aes(alpha = 0.5), show.legend = FALSE) +
+  labs(title = "Silent Spring NRC Sentiment Analysis",
+       x = "Sentiment",
+       y = "Word Count")
+```
+
+
+
+**Figure 3**: Silent Spring NRC Sentiment Analysis. Data: **Silent Spring**, Rachel Carson (1962)
+
+
+### Citation
+
+Data: **Silent Spring**, Rachel Carson (1962)
+
+```{r,  message = FALSE}
+silent_spring_bing <- silent_spring_nonstop_words %>% 
+  inner_join(get_sentiments("bing")) 
+
+silent_spring_bing_counts <- silent_spring_bing %>% 
+  count(sentiment)
+
+ddt_spraying <- readJPEG(here("DDT-spraying.jpg"))
+
+ggplot(data = silent_spring_bing_counts, aes(x = sentiment, y = n)) +
+  annotation_custom(rasterGrob(ddt_spraying, 
+                               width = unit(1,"npc"), 
+                               height = unit(1,"npc")), 
+                    -Inf, Inf, -Inf, Inf) +
+  geom_col() +
+  labs(title = "Silent Spring Bing Sentiment Analysis",
+       x = "Sentiment",
+       y = "Word Count")
+```
+
+```{r}
+
+```
+
+silent_spring_afinn <- silent_spring_nonstop_words %>% 
+  inner_join(get_sentiments("afinn")) 
+
+silent_spring_afinn_counts <- silent_spring_afinn %>% 
+  count(sentiment)
+
+
+ggplot(data = silent_spring_afinn_counts, aes(x = sentiment, y = n)) +
+  geom_col()
+
+afinn_counts <- hobbit_afinn %>% 
+  count(chapter, value)
+
+# Plot them: 
+ggplot(data = afinn_counts, aes(x = value, y = n)) +
+  geom_col() +
+  facet_wrap(~chapter)
+
+# Find the mean afinn score by chapter: 
+afinn_means <- hobbit_afinn %>% 
+  group_by(chapter) %>% 
+  summarize(mean_afinn = mean(value))
+
+ggplot(data = afinn_means, 
+       aes(x = fct_rev(as.factor(chapter)), 
+           y = mean_afinn)) +
+  geom_col() +
+  coord_flip()
+

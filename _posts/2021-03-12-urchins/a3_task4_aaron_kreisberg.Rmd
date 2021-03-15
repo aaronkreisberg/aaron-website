@@ -1,0 +1,105 @@
+---
+title: "a3_task4_aaron_kreisberg"
+author: "Aaron Kreisberg"
+date: "11/4/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE, messages=FALSE, warnings=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(janitor)
+library(here)
+library(kableExtra)
+library(lubridate)
+```
+
+```{r}
+urchins <- read.csv(here("data", "urchins.csv")) %>% 
+  clean_names()
+```
+
+The urchins data will be wrangled to compare the mean size of purple urchins in ANNUAL (annual giant kelp removal) and CONTROL (no giant kelp removal) sections of Naples Reef in January 2010. Summary statistics were be determined and a two sample t-test will be performed
+
+## 1. Data Wrangling
+
+First some basic data wrangling will be performed so the urchins data matches the above mentioned parameters. The mutate() will be used to: convert the date ~mdy() with the lubridate package and create columns using ~year() and ~month(). Then date will be filtered for Jan 2010 data ~filter(month == 01, year ==2010) of purple urchins at the Naples Reef site ~filter(common_name == "Purple Urchin", site == "NAPL"). Lastly a new column will be created for site when it is NAPL that list the full name "Naples Reef" ~mutate(site_full = case_when(site == "NAPL" ~ "Naples Reef"))
+
+
+```{r}
+jan_2010_naples_urchins <- urchins %>%
+  mutate(date_new = mdy(date)) %>% 
+  mutate(year = year(date_new)) %>% 
+  mutate(month = month(date_new)) %>% 
+  filter(month == 01, year == 2010) %>% 
+  filter(common_name == "Purple Urchin", site == "NAPL") %>%
+  mutate(site_full = case_when(
+  site == "NAPL" ~ "Naples Reef"))
+
+```
+
+## 2. Data Visualization
+
+A histogram is created using ~ggplot(data = jan_2010_naples_urchins, aes(x = size, fill = treatment)) + geom_histogram(bins = 15) + facet_wrap(~treatment)
+
+```{r}
+ggplot(data = jan_2010_naples_urchins, aes(x = size, fill = treatment)) +
+  geom_histogram(bins = 15) +
+  facet_wrap(~treatment)
+```
+
+
+A QQ-plot for the size distribution is created by using ~ggplot(data = jan_2010_naples_urchins, aes(sample = size, color = treatment)) + geom_qq() + facet_wrap(~treatment)
+
+
+```{r}
+ggplot(data = jan_2010_naples_urchins, aes(sample = size, color = treatment)) +
+  geom_qq() +
+  facet_wrap(~treatment)
+```
+
+Each group shows a bimodal distribution in terms of numbers of urchins in relation to urchin diameter. There is also an appearance of a slight positive skew for each distribution with drawn out right tails representing larger urchin diameter, particularly in the ANNUAL treatment with two urchins six cm in diameter.
+
+## 3. Summary Statistics Table
+
+A summary statistics table that displays for purple urchins the mean size, the median size, the standard deviation, and the number in terms of the ANNUAL (annual giant kelp removal) and CONTROL (no giant kelp removal) treatments in January 2010 at Naples Reef. This is done by ~jan_2010_naples_urchins %>% group_by(treatment) %>% summarise(mean_size = mean(size), median_size = median(size), sd_size = sd(size), n = n()) %>% kbl() %>% kable_classic(full_width = TRUE)
+
+Also the mean difference and percent difference between the annual and control treatments will be calculated
+
+```{r}
+jan_2010_naples_urchins %>%
+  group_by(treatment) %>% 
+  summarise(mean_size = mean(size),
+            median_size = median(size),
+            sd_size = sd(size), 
+            n = n(),
+            .groups = 'drop') %>% 
+  kbl() %>% 
+  kable_classic(full_width = TRUE)
+
+mean_difference = (3.916667-3.725807)
+mean_difference
+percent_difference = ((3.916667-3.725807)/((3.916667+3.725807)/2))*100
+percent_difference
+```
+
+## 4. Two Sample t-test
+
+A two sample t-test of is performed to compare the means of the annual and control treaments. This is done  ~filter(treatment == "ANNUAL") %>% pull(size), filter(treatment == "CONTROL") %>% pull(size), and t.test(x = annual_sample, y = control_sample)
+
+```{r}
+annual_sample <- jan_2010_naples_urchins %>% 
+  filter(treatment == "ANNUAL") %>% 
+  pull(size)
+
+control_sample <- jan_2010_naples_urchins %>% 
+  filter(treatment == "CONTROL") %>% 
+  pull(size)
+
+t.test(x = annual_sample, y = control_sample)
+
+
+```
+
+
+The mean diameter of annual treatment purple urchins (3.92) is 0.19 greater then the control treatment (3.73), and the mean annual purple urchin has a diameter about 5% larger then the mean control purple urchin's diameter. Based on these values, and considering standard deviations (or square roots of the diameter variance) close to 1 cm, there does not seem to be a significant amount of difference between these two populations based on whether they where in an annual or control treatment. Depending on the value placed on statistical significance, the high p-value could support this point of view. This p-value (0.2536) means that there is a ~25% probability that two samples with means this different would be randomly drawn from urchin populations with the same mean, and the null hypothesis of these means being drawn from the same population would not be rejected if using a p-value=0.05 for statistical significance.

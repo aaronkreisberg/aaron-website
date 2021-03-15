@@ -9,15 +9,78 @@ date: 2021-03-12
 output:
   distill::distill_article:
     self_contained: false
+    code_folding: TRUE
 ---
 
+# Annual Water Level of Mono Lake, 1850-2017
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, message = FALSE, error = FALSE, warning = FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+#Read in necessary packages with library (): tidyverse, here, and janitor
+library(tidyverse)
+library(here)
+library(janitor)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+```{r, include = FALSE}
+#Read in mono lake data with read.csv(here())
+mono_lake_annual_levels <- read_csv(here("_posts", "2021-03-12-monolake", "data","mono_lake_annual_levels.csv"),
+                                    skip = 5) %>% #Remove top five rows of data set (, skip = 5)
+  clean_names()#Clean the column names (clean_names())
 
+mono_dates <- mono_lake_annual_levels %>% 
+  filter(year %in% c("1941", "1979", "1983", "1994")) #Filter mono lake data for key dates
+```
+
+
+
+```{r, include = TRUE, fig.width = 9} 
+ggplot(data = mono_lake_annual_levels, aes(x = year, 
+                                           y = lake_level_feet_above_sea_level)) +
+  geom_line(color = "deepskyblue", size = 1.5) + #Visualize lake level with a line geom_line())
+  geom_hline(yintercept = 6377, linetype="dashed", color = "red", size = 1.5) +  #Line for land bridges
+  annotate(geom = "text", #Annotate land bridge line
+           x = 1875,
+           y = 6380,
+           label = "Land Bridges Appear") +
+  geom_point(data = mono_dates, 
+             shape = "*", 
+             size = 15) +
+    geom_ribbon(aes(ymin = -Inf, ymax = lake_level_feet_above_sea_level), fill = "blue", alpha = 0.25) + #Fill in the area under the line geom_ribbon()
+  geom_hline(yintercept = 6392, linetype="dashed", size = 1.5) + #Line for stable level
+  annotate(geom = "text", #Annotate stable line
+           x = 1875,
+           y = 6395,
+           label = "Managment Level Objective") +
+  geom_hline(yintercept = 6360, color = "orange", size = 1.5) + #Line for salinity impacts
+  annotate(geom = "text", #Annotate initial salinity line
+           x = 1875,
+           y = 6363,
+           label = "Initial Salinity Impacts") +
+  geom_hline(yintercept = 6350, color = "yellow", size = 1.5) + #Line for acute salinity impacts
+   annotate(geom = "text", #Annotate acute salinity line
+           x = 1875,
+           y = 6353,
+           label = "Acute Salinity Impacts") +
+  scale_x_continuous(breaks = c(1850, 1875, 1900, 1925, 1950, 1975, 2000, 2017)) + #Relabel x-axis ticks
+  scale_y_continuous(breaks = c(6350, 6375, 6400, 6425)) + #Relabel y-axis ticks
+  expand_limits(y = c(6350, 6430)) + #Expand y-axis range
+  labs(x = "Year", y = "Lake Level (feet above sea level)") +
+  geom_label(aes(label="Water Diversions Initiatied", #Use geom_label() to add labels to key points
+    x=1952,
+    y=6421.0)) +
+   geom_label(aes(label="MLC/NAS sue LADWP", 
+    x=1979,
+    y=6369)) +
+  geom_label(aes(label="Public Trust Decision", 
+    x=1978,
+    y=6383)) +
+  geom_label(aes(label="1631 Decision", 
+    x=2008,
+    y=6373)) +
+  theme_minimal() #Adjust theme
+```
+
+**Figure 1.** Annual Water Level of Mono Lake, 1850-2017. Key dates (1941-Water Diversions Initiated, 1979-Mono Lake Committee and National Audubon Society sue Los Angeles Department of Water and Power, 1983-Public Trust Decision, 1994-"1631" Decision, 2013-Restoration Agreement) and key management water levels (black line at "6392 ft Stable Level" called for by restoration agreement, red line at 6377 ft level where land bridges form impacting nesting birds with increased predation, orange (6360 ft) and yellow (6350 ft) lines representing levels where lake salinity impacts ecology initially and acutely respectively) are noted. Data: Mono Basin Clearinghouse
 

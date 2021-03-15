@@ -1,7 +1,7 @@
 ---
 title: "Urchins Analysis"
 description: |
-  A short description of the post.
+  Analysis of Sea Urchins at Santa Barbara County Long-Term Ecological Research Site.
 author:
   - name: Aaron Kreisberg
     url: {}
@@ -9,15 +9,193 @@ date: 2021-03-12
 output:
   distill::distill_article:
     self_contained: false
+    code_folding: hide
 ---
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+```{r setup, echo = TRUE, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(tidyverse)
+library(janitor)
+library(here)
+library(kableExtra)
+library(lubridate)
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+## Part 1
+
+First the urchins.csv file will be read in using read.csv(here("data", "urchins.csv")) from the data folder in the R.project, and names will be cleaned using clean_names()
+
+```{r}
+urchins <- read.csv(here("_posts", "2021-03-12-urchins","data", "urchin.csv")) %>% 
+  clean_names()
+```
+
+## Section 1 - Size Comparison of purple and red urchins
+
+# Exploratory data visualization of purple and red urchins
+
+First the distribution of sizes of purple and red urchins will be examined visually. This will be done by using gg_plot, with both a faceted histogram (ggplot() + geom_histogram + facet_wrap(~common_name)) and a boxplot (ggplot() + geom_boxplot())
+
+```{r}
+ggplot(data = urchins, aes(x = size, fill = common_name)) +
+  geom_histogram(color = "black") +
+  facet_wrap(~common_name) +
+  scale_fill_manual(values = c("purple", "red")) +
+  theme(legend.position = "none") +
+  labs(x = "Urchin Size (diameter to the nearest 0.5 cm)", y = "# of Urchins")
+```
+```{r}
+ggplot(data = urchins, aes(x = common_name, y = size, fill = common_name)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("purple", "red")) +
+  theme(legend.position = "none") +
+  labs(x = "Urchins", y ="Urchin Size (nearest 0.5 cm)")
+ 
+  
+```
+
+# Descriptive statistics table of purple and red urchins data
+
+Next the data will be explored in a summary statistics table by using goup_by(common_name) followed by summarise(mean(), median (), sd(), and n()). The kbl() from the kableExtra package will improve the aesthetics of the summary statistics table
+
+```{r}
+urchin_stats <- urchins %>%
+  group_by(common_name) %>% 
+  summarise(mean_size = mean(size),
+            median_size = median(size),
+            sd_size = sd(size), 
+            n = n()) 
+kbl(urchin_stats) %>% 
+  kable_classic(full_width = TRUE)
+
+actual_difference = (6.776489-4.469797)
+actual_difference
+percent_difference = ((6.776489-4.469797)/((6.776489+4.469797)/2))*100
+percent_difference
+```
+ 
+
+Based on the above exploratory graphs and table, both populations appear to relatively normally distributed with purple maybe showing a slight positive skew and red urchins showing more upper range outliers. Based on summary statistics, red urchins show a greater mean and median size, and a larger standard deviation, although there is a greater number of purple urchins (n = 31805) versus red urchins (n = 27408). The actual difference between mean urchin diameter is ~2.31, while the percent difference (calculated in the code section above) is ~41%; the mean red urchin is 41% larger in diameter than the mean purple urchin which can be a more useful comparison then just a actual difference depending on the comparison.   
+
+## Section 2 - Exploration of purple urchin counts by site and year
+
+In a piped sequence of code a subset of the urchins data will be created. A new column is created to convert the date to class "Date" and creating a colunm with just the year.
+
+```{r}
+purple_urchins <- urchins %>%
+    mutate(date_new = mdy(date)) %>% # Convert the date to class "Date" ~mdy(date)
+  filter(common_name == "Purple Urchin") %>% # Filter for only the purple urchins ~filter()
+  mutate(year = year(date_new)) %>% # Create a column with just the date ~mutate(year())
+  mutate(site_full = case_when( # Create a new column with full names for sites case_when() 
+    site == "NAPL" ~ "Naples Reef", 
+    site == "AQUE" ~ "Arroyo Quemado Reef", 
+    site == "CARP" ~ "Carpinteria Reef",
+    site == "MOHK" ~ "Mohawk Reef",
+    site == "IVEE" ~ "Isla Vista Reef"))
+
+# Create a summary table of # of purple urchins by site and year, using the group_by() and count()
+purple_urchin_site_year <- purple_urchins %>% 
+  group_by(year, site_full) %>% 
+  count(site_full)
+  
+purple_urchin_site_year  
+```
+
+```{r}
+# Create an exploratory graph of counts of purple urchins at each site by year. This was done with ggplot() + geom_col() + facet_wrap()
+
+ggplot(data = purple_urchin_site_year, aes(x = year, y = n, fill = site_full)) +
+  geom_col() +
+  facet_wrap(~site_full)
 
 
+```
+
+## Part Two
+
+The urchins data will be wrangled to compare the mean size of purple urchins in ANNUAL (annual giant kelp removal) and CONTROL (no giant kelp removal) sections of Naples Reef in January 2010. Summary statistics were be determined and a two sample t-test will be performed
+
+## 1. Data Wrangling
+
+First some basic data wrangling will be performed so the urchins data matches the above mentioned parameters. The mutate() will be used to: convert the date ~mdy() with the lubridate package and create columns using ~year() and ~month(). Then date will be filtered for Jan 2010 data ~filter(month == 01, year ==2010) of purple urchins at the Naples Reef site ~filter(common_name == "Purple Urchin", site == "NAPL"). Lastly a new column will be created for site when it is NAPL that list the full name "Naples Reef" ~mutate(site_full = case_when(site == "NAPL" ~ "Naples Reef"))
+
+
+```{r}
+jan_2010_naples_urchins <- urchins %>%
+  mutate(date_new = mdy(date)) %>% 
+  mutate(year = year(date_new)) %>% 
+  mutate(month = month(date_new)) %>% 
+  filter(month == 01, year == 2010) %>% 
+  filter(common_name == "Purple Urchin", site == "NAPL") %>%
+  mutate(site_full = case_when(
+  site == "NAPL" ~ "Naples Reef"))
+
+```
+
+## 2. Data Visualization
+
+A histogram is created using ~ggplot(data = jan_2010_naples_urchins, aes(x = size, fill = treatment)) + geom_histogram(bins = 15) + facet_wrap(~treatment)
+
+```{r}
+ggplot(data = jan_2010_naples_urchins, aes(x = size, fill = treatment)) +
+  geom_histogram(bins = 15) +
+  facet_wrap(~treatment)
+```
+
+
+A QQ-plot for the size distribution is created by using ~ggplot(data = jan_2010_naples_urchins, aes(sample = size, color = treatment)) + geom_qq() + facet_wrap(~treatment)
+
+
+```{r}
+ggplot(data = jan_2010_naples_urchins, aes(sample = size, color = treatment)) +
+  geom_qq() +
+  facet_wrap(~treatment)
+```
+
+Each group shows a bimodal distribution in terms of numbers of urchins in relation to urchin diameter. There is also an appearance of a slight positive skew for each distribution with drawn out right tails representing larger urchin diameter, particularly in the ANNUAL treatment with two urchins six cm in diameter.
+
+## 3. Summary Statistics Table
+
+A summary statistics table that displays for purple urchins the mean size, the median size, the standard deviation, and the number in terms of the ANNUAL (annual giant kelp removal) and CONTROL (no giant kelp removal) treatments in January 2010 at Naples Reef. This is done by ~jan_2010_naples_urchins %>% group_by(treatment) %>% summarise(mean_size = mean(size), median_size = median(size), sd_size = sd(size), n = n()) %>% kbl() %>% kable_classic(full_width = TRUE)
+
+Also the mean difference and percent difference between the annual and control treatments will be calculated
+
+```{r}
+jan_2010_naples_urchins %>%
+  group_by(treatment) %>% 
+  summarise(mean_size = mean(size),
+            median_size = median(size),
+            sd_size = sd(size), 
+            n = n(),
+            .groups = 'drop') %>% 
+  kbl() %>% 
+  kable_classic(full_width = TRUE)
+
+mean_difference = (3.916667-3.725807)
+mean_difference
+percent_difference = ((3.916667-3.725807)/((3.916667+3.725807)/2))*100
+percent_difference
+```
+
+## 4. Two Sample t-test
+
+A two sample t-test of is performed to compare the means of the annual and control treaments. This is done  ~filter(treatment == "ANNUAL") %>% pull(size), filter(treatment == "CONTROL") %>% pull(size), and t.test(x = annual_sample, y = control_sample)
+
+```{r}
+annual_sample <- jan_2010_naples_urchins %>% 
+  filter(treatment == "ANNUAL") %>% 
+  pull(size)
+
+control_sample <- jan_2010_naples_urchins %>% 
+  filter(treatment == "CONTROL") %>% 
+  pull(size)
+
+t.test(x = annual_sample, y = control_sample)
+
+
+```
+
+
+The mean diameter of annual treatment purple urchins (3.92) is 0.19 greater then the control treatment (3.73), and the mean annual purple urchin has a diameter about 5% larger then the mean control purple urchin's diameter. Based on these values, and considering standard deviations (or square roots of the diameter variance) close to 1 cm, there does not seem to be a significant amount of difference between these two populations based on whether they where in an annual or control treatment. Depending on the value placed on statistical significance, the high p-value could support this point of view. This p-value (0.2536) means that there is a ~25% probability that two samples with means this different would be randomly drawn from urchin populations with the same mean, and the null hypothesis of these means being drawn from the same population would not be rejected if using a p-value=0.05 for statistical significance.
