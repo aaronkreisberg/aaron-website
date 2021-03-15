@@ -34,7 +34,7 @@ library(grid) # Read in grid
 
 Silent Spring is available for download as free PDF online. Below is page 47 of Silent Spring after reading in the downloaded .pdf using pdf_text(here()).
 
-```{r, cache = TRUE}
+```{r}
 
 silent_spring_text <- pdf_text(here("_posts", "2021-03-12-silentspringtextanalysis", "data", "silent_spring.pdf"))
 
