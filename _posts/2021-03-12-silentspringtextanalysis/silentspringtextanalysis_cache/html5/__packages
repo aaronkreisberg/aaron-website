@@ -1,11 +1,5 @@
 base
-methods
 emo
-datasets
-utils
-grDevices
-graphics
-stats
 tidyverse
 ggplot2
 tibble
@@ -21,4 +15,3 @@ textdata
 pdftools
 ggwordcloud
 jpeg
-grid
