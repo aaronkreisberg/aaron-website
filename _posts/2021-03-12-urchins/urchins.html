@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["data/urchin.csv","urchins_files/anchor-4.2.2/anchor.min.js","urchins_files/bowser-1.9.3/bowser.min.js","urchins_files/distill-2.2.21/template.v2.js","urchins_files/figure-html5/unnamed-chunk-2-1.png","urchins_files/figure-html5/unnamed-chunk-3-1.png","urchins_files/figure-html5/unnamed-chunk-6-1.png","urchins_files/figure-html5/unnamed-chunk-8-1.png","urchins_files/figure-html5/unnamed-chunk-9-1.png","urchins_files/header-attrs-2.7.3/header-attrs.js","urchins_files/jquery-1.11.3/jquery.min.js","urchins_files/popper-2.6.0/popper.min.js","urchins_files/tippy-6.2.7/tippy-bundle.umd.min.js","urchins_files/tippy-6.2.7/tippy-light-border.css","urchins_files/tippy-6.2.7/tippy.css","urchins_files/tippy-6.2.7/tippy.umd.min.js","urchins_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["data/urchin.csv","urchins_files/anchor-4.2.2/anchor.min.js","urchins_files/bowser-1.9.3/bowser.min.js","urchins_files/distill-2.2.21/template.v2.js","urchins_files/figure-html5/unnamed-chunk-11-1.png","urchins_files/figure-html5/unnamed-chunk-13-1.png","urchins_files/figure-html5/unnamed-chunk-14-1.png","urchins_files/figure-html5/unnamed-chunk-2-1.png","urchins_files/figure-html5/unnamed-chunk-3-1.png","urchins_files/figure-html5/unnamed-chunk-6-1.png","urchins_files/figure-html5/unnamed-chunk-7-1.png","urchins_files/figure-html5/unnamed-chunk-8-1.png","urchins_files/figure-html5/unnamed-chunk-9-1.png","urchins_files/header-attrs-2.7.3/header-attrs.js","urchins_files/jquery-1.11.3/jquery.min.js","urchins_files/kePrint-0.0.1/kePrint.js","urchins_files/lightable-0.0.1/lightable.css","urchins_files/popper-2.6.0/popper.min.js","urchins_files/tippy-6.2.7/tippy-bundle.umd.min.js","urchins_files/tippy-6.2.7/tippy-light-border.css","urchins_files/tippy-6.2.7/tippy.css","urchins_files/tippy-6.2.7/tippy.umd.min.js","urchins_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1482,7 +1482,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="part-1">Part 1</h2>
+<p>Data regarding sea urchins collected through the Santa Barbara Coastal Long-Term Ecological Research site will be examined to display data wrangling and statistical analysis.</p>
+<h1 id="part-1">Part 1</h1>
 <p>First the urchins.csv file will be read in using read.csv(here(“data”, “urchins.csv”)) from the data folder in the R.project, and names will be cleaned using clean_names()</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -1497,7 +1498,7 @@ hide
 </details>
 </div>
 <h2 id="section-1---size-comparison-of-purple-and-red-urchins">Section 1 - Size Comparison of purple and red urchins</h2>
-<h1 id="exploratory-data-visualization-of-purple-and-red-urchins">Exploratory data visualization of purple and red urchins</h1>
+<h3 id="exploratory-data-visualization-of-purple-and-red-urchins">Exploratory data visualization of purple and red urchins</h3>
 <p>First the distribution of sizes of purple and red urchins will be examined visually. This will be done by using gg_plot, with both a faceted histogram (ggplot() + geom_histogram + facet_wrap(~common_name)) and a boxplot (ggplot() + geom_boxplot())</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -1532,7 +1533,7 @@ hide
 </details>
 <p><img src="urchins_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
-<h1 id="descriptive-statistics-table-of-purple-and-red-urchins-data">Descriptive statistics table of purple and red urchins data</h1>
+<h3 id="descriptive-statistics-table-of-purple-and-red-urchins-data">Descriptive statistics table of purple and red urchins data</h3>
 <p>Next the data will be explored in a summary statistics table by using goup_by(common_name) followed by summarise(mean(), median (), sd(), and n()). The kbl() from the kableExtra package will improve the aesthetics of the summary statistics table</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -1692,9 +1693,10 @@ hide
 </details>
 <p><img src="urchins_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
 </div>
-<h2 id="part-two">Part Two</h2>
-<p>The urchins data will be wrangled to compare the mean size of purple urchins in ANNUAL (annual giant kelp removal) and CONTROL (no giant kelp removal) sections of Naples Reef in January 2010. Summary statistics were be determined and a two sample t-test will be performed</p>
-<h2 id="data-wrangling">1. Data Wrangling</h2>
+<h1 id="part-two">Part Two</h1>
+<h2 id="naples-reef-purple-urchins">Naples Reef Purple Urchins</h2>
+<p>The urchins data will be wrangled to compare the mean size of purple urchins in ANNUAL (annual giant kelp removal) and CONTROL (no giant kelp removal) sections of Naples Reef in January 2010. Summary statistics are determined and a two sample t-test is performed</p>
+<h3 id="data-wrangling">Data Wrangling</h3>
 <p>First some basic data wrangling will be performed so the urchins data matches the above mentioned parameters. The mutate() will be used to: convert the date ~mdy() with the lubridate package and create columns using ~year() and ~month(). Then date will be filtered for Jan 2010 data ~filter(month == 01, year ==2010) of purple urchins at the Naples Reef site ~filter(common_name == “Purple Urchin”, site == “NAPL”). Lastly a new column will be created for site when it is NAPL that list the full name “Naples Reef” ~mutate(site_full = case_when(site == “NAPL” ~ “Naples Reef”))</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -1714,7 +1716,7 @@ hide
 </div>
 </details>
 </div>
-<h2 id="data-visualization">2. Data Visualization</h2>
+<h3 id="data-visualization">Data Visualization</h3>
 <p>A histogram is created using ~ggplot(data = jan_2010_naples_urchins, aes(x = size, fill = treatment)) + geom_histogram(bins = 15) + facet_wrap(~treatment)</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -1746,7 +1748,7 @@ hide
 <p><img src="urchins_files/figure-html5/unnamed-chunk-9-1.png" width="624" /></p>
 </div>
 <p>Each group shows a bimodal distribution in terms of numbers of urchins in relation to urchin diameter. There is also an appearance of a slight positive skew for each distribution with drawn out right tails representing larger urchin diameter, particularly in the ANNUAL treatment with two urchins six cm in diameter.</p>
-<h2 id="summary-statistics-table">3. Summary Statistics Table</h2>
+<h3 id="summary-statistics-table">Summary Statistics Table</h3>
 <p>A summary statistics table that displays for purple urchins the mean size, the median size, the standard deviation, and the number in terms of the ANNUAL (annual giant kelp removal) and CONTROL (no giant kelp removal) treatments in January 2010 at Naples Reef. This is done by ~jan_2010_naples_urchins %&gt;% group_by(treatment) %&gt;% summarise(mean_size = mean(size), median_size = median(size), sd_size = sd(size), n = n()) %&gt;% kbl() %&gt;% kable_classic(full_width = TRUE)</p>
 <p>Also the mean difference and percent difference between the annual and control treatments will be calculated</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1847,7 +1849,7 @@ hide
 </details>
 <pre><code>[1] 4.994718</code></pre>
 </div>
-<h2 id="two-sample-t-test">4. Two Sample t-test</h2>
+<h3 id="two-sample-t-test">Two Sample t-test</h3>
 <p>A two sample t-test of is performed to compare the means of the annual and control treaments. This is done ~filter(treatment == “ANNUAL”) %&gt;% pull(size), filter(treatment == “CONTROL”) %&gt;% pull(size), and t.test(x = annual_sample, y = control_sample)</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
@@ -1880,6 +1882,8 @@ mean of x mean of y
  3.916667  3.725806 </code></pre>
 </div>
 <p>The mean diameter of annual treatment purple urchins (3.92) is 0.19 greater then the control treatment (3.73), and the mean annual purple urchin has a diameter about 5% larger then the mean control purple urchin’s diameter. Based on these values, and considering standard deviations (or square roots of the diameter variance) close to 1 cm, there does not seem to be a significant amount of difference between these two populations based on whether they where in an annual or control treatment. Depending on the value placed on statistical significance, the high p-value could support this point of view. This p-value (0.2536) means that there is a ~25% probability that two samples with means this different would be randomly drawn from urchin populations with the same mean, and the null hypothesis of these means being drawn from the same population would not be rejected if using a p-value=0.05 for statistical significance.</p>
+<h1 id="citation">Citation</h1>
+<p>-Reed, D. 2020. SBC LTER: Reef: Long-term experiment: Kelp removal: Urchin size frequency distribution ver 20. Environmental Data Initiative. <a href="https://doi.org/10.6073/pasta/5a1e9ef03aa47bd2225c0bb98a02a63b" class="uri">https://doi.org/10.6073/pasta/5a1e9ef03aa47bd2225c0bb98a02a63b</a>.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

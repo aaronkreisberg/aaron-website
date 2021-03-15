@@ -5,21 +5,21 @@
       "title": "A Little Bit More About Myself",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\nScorpion Anchorage, Santa Cruz Island, Channel Islands National Park-Photo by Aaron Kreisberg\r\nBackground & Interests\r\nThe natural world has given much to me personally and professionally. I was fortunate to be a kayak guide for several years in Channel Islands National Park, leading visitors through seacaves and interpreting the natural resources of Santa Cruz Island. Mixed with an existing interest in habitat restoration, exposure to Channel Islands National Park’s incredible flora and fauna cultivated a desire to work in conservation. Having attended UC Santa Barbara for my undergraduate education, I was already aware of the Bren School and felt further education was a good path to pursue to enhance my skillsets and gain experience in the environmental field. This has allowed to my gain training and experience in data science and statistical analysis through coursework and academic projects. The blogs Data Science Portfolio tab in the navigation bar at the top of this page showcases some of this work.\r\nOutdoor recreation, islands, and birding are my major interests outside of school. Prior to Bren I was able to spend to spend five months traveling New Zealand where I also gained experience as a kitchen assistant and housekeeping specialist (not exactly pertinent to a career using data science but interesting experiences). Being back in the Santa Barbara/Goleta area is made all the better by proximity to the Channel Islands and Devereux Slough, one of my favorite birding locations in Santa Barbara County.\r\nExperience & Projects\r\nAt the Bren School I completed ESM 206 (Statistics & Data Analysis) and ESM 244 (Advanced Data Analysis). I became proficient in using the r programming language and working in the RStudio development environment. Additional coursework completed includes ESM 263 (Geographic Information Systems), where I became proficient in utilizing QGIS, a free and open-source geographic information system (GIS) application. Analysis and visualization of geospatial data is of particular interest to me.\r\nBeyond considerable experience in the outdoor recreation field, I have worked in a variety of field work and management positions for habitat restoration and conservation-related projects. I have experience working with invasive species removal and native vegetation restoration at Coal Oil Point Reserve (COPR), the UCSB campus, the Santa Ynez River, the Santa Clara River, Vandenberg Air Force Base, Edwards Air Force Base, Los Padres National Forest, and Angeles National Forest. As a volunteer, I have participated in conservation projects on several Channel Islands.\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-03-15T15:05:04-07:00"
+      "last_modified": "2021-03-15T15:06:26-07:00"
     },
     {
       "path": "blog.html",
       "title": "Data Science Portfolio",
       "author": [],
       "contents": "\r\n\r\n\r\n\r\nWestern Snowy Plover at Sands Beach-Photo by Aaron Kreisberg\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-03-15T15:04:47-07:00"
+      "last_modified": "2021-03-15T15:06:27-07:00"
     },
     {
       "path": "index.html",
       "title": "Aaron Kreisberg",
       "author": [],
       "contents": "\r\n\r\n          \r\n          \r\n          Aaron Kreisberg\r\n          \r\n          \r\n          Home\r\n          About\r\n          Data Science Portfolio\r\n          Resume\r\n          ☰\r\n          \r\n          \r\n      \r\n        \r\n          \r\n            \r\n              \r\n            \r\n              Aaron Kreisberg\r\n            \r\n            \r\n              \r\n                \r\n                    \r\n                      \r\n                        LinkedIn\r\n                      \r\n                    \r\n                  \r\n                                    \r\n                    \r\n                      \r\n                        Twitter\r\n                      \r\n                    \r\n                  \r\n                                    \r\n                    \r\n                      \r\n                        GitHub\r\n                      \r\n                    \r\n                  \r\n                                    \r\n                    \r\n                      \r\n                        Email\r\n                      \r\n                    \r\n                  \r\n                                  \r\n            \r\n          \r\n        \r\n        \r\n        \r\n          \r\n            I’m Aaron Kreisberg, a student at UC Santa Barbara’s Bren School of Environmental Science & Management. I continue to develop my data science and statistical analysis skills to further a career in conservation.\r\n          \r\n        \r\n      \r\n    \r\n\r\n    \r\n      \r\n        \r\n          \r\n            \r\n              \r\n            \r\n              Aaron Kreisberg\r\n            \r\n            \r\n              \r\n                \r\n                                    \r\n                    \r\n                      LinkedIn\r\n                    \r\n                  \r\n                                    \r\n                    \r\n                      Twitter\r\n                    \r\n                  \r\n                                    \r\n                    \r\n                      GitHub\r\n                    \r\n                  \r\n                                    \r\n                    \r\n                      Email\r\n                    \r\n                  \r\n                                  \r\n              \r\n            \r\n            \r\n              I’m Aaron Kreisberg, a student at UC Santa Barbara’s Bren School of Environmental Science & Management. I continue to develop my data science and statistical analysis skills to further a career in conservation.\r\n            \r\n        \r\n      \r\n    \r\n\r\n    \r\n    \r\n    ",
-      "last_modified": "2021-03-15T13:52:24-07:00"
+      "last_modified": "2021-03-15T15:06:27-07:00"
     },
     {
       "path": "resume.html",
@@ -33,7 +33,7 @@
       ],
       "date": "`r Sys.Date()`",
       "contents": "\r\n\r\n\r\n\r\n\r\n\r\nBurrowing Owl at North Campus Open Space-Photo by Aaron Kreisberg\r\n\r\n\r\n\r\n",
-      "last_modified": "2021-03-15T15:05:21-07:00"
+      "last_modified": "2021-03-15T15:06:28-07:00"
     }
   ],
   "collections": ["posts/posts.json"]
