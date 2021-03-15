@@ -36,7 +36,7 @@ Silent Spring is available for download as free PDF online. Below is page 47 of 
 
 ```{r}
 
-silent_spring_text <- pdf_text(here("_posts", "2021-03-12-silentspringtextanalysis", "data", "silent_spring.pdf"))
+silent_spring_text <- pdf_text(here("_posts", "2021-03-15-silent-spring", "data", "silent_spring.pdf"))
 
 
 silent_spring_p47 <- silent_spring_text[47]
@@ -89,7 +89,7 @@ top100 <- nonstop_counts %>%
 ```
 
 ```{r}
-ddt_background <- readJPEG(here("_posts", "2021-03-12-silentspringtextanalysis", "data", "ddt_spraying.jpg"))
+ddt_background <- readJPEG(here("_posts", "2021-03-15-silent-spring", "data", "ddt_spraying.jpg"))
 ```
 
 
@@ -119,7 +119,7 @@ top20 <- top100 %>%
   slice(1:20) %>% 
   group_by(-n) 
 
-ddt_for_me <- readJPEG(here("_posts", "2021-03-12-silentspringtextanalysis", "data", "ddt1.jpg"))
+ddt_for_me <- readJPEG(here("_posts", "2021-03-15-silent-spring", "data", "ddt1.jpg"))
 ```
 
 
@@ -159,7 +159,7 @@ silent_spring_nrc <- silent_spring_nonstop_words %>%
 silent_spring_nrc_counts <- silent_spring_nrc %>% 
   count(sentiment)
 
-ddt_plane <- readJPEG(here("_posts", "2021-03-12-silentspringtextanalysis", "data", "ddt_plane.jpg"))
+ddt_plane <- readJPEG(here("_posts", "2021-03-15-silent-spring", "data", "ddt_plane.jpg"))
 
 ggplot(data = silent_spring_nrc_counts, aes(x = sentiment, y = n, color = "red")) +
   annotation_custom(rasterGrob(ddt_plane, 
