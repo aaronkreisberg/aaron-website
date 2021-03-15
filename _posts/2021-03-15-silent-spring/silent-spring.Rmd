@@ -2,11 +2,10 @@
 title: "Silent Spring Text Analysis"
 description: |
   A text and sentiment analysis of Rachel Carson's Silent Spring.
-draft: true
 author:
   - name: Aaron Kreisberg
     url: {}
-date: 2021-03-12
+date: 2021-03-15
 output:
   distill::distill_article:
     self_contained: false
@@ -181,5 +180,6 @@ ggplot(data = silent_spring_nrc_counts, aes(x = sentiment, y = n, color = "red")
 ### Citation
 
 Data: **Silent Spring**, Rachel Carson (1962)
+
 
 
