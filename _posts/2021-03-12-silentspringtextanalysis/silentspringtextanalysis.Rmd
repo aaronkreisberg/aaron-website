@@ -1,7 +1,7 @@
 ---
 title: "Silent Spring Text Analysis"
 description: |
-  A short description of the post.
+  A text and sentiment analysis of Rachel Carson's Silent Spring.
 author:
   - name: Aaron Kreisberg
     url: {}

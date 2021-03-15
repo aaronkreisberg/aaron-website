@@ -1,7 +1,7 @@
 ---
-title: "mono_lake"
+title: "Visualization of Mono Lake Level"
 description: |
-  A short description of the post.
+  Wrangling and visualization of Mono Lake surface level.
 author:
   - name: Aaron Kreisberg
     url: {}
