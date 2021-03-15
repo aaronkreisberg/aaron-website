@@ -1,7 +1,7 @@
 ---
 title: "Spatial Analysis"
 description: |
-  Spatial analysis of 2008 California oil spills.
+  Spatial analysis of 2008 California oil spills and California cetacean species richness.
 author:
   - name: Aaron Kreisberg
 date: 2021-02-24
@@ -12,8 +12,7 @@ output:
     
 ---
 
-
-# Spatial Exploration of 2008 California Oil Spills
+# Part One-Spatial Exploration of 2008 California Oil Spills
 
 ### Introduction
 
@@ -26,7 +25,11 @@ library(here) #Read in the here package
 library(janitor) #Read in the janitor package
 library(sf) #Read in sf
 library(tmap) #Read in tmap
+library(raster) # Read in raster  **NOTE: Attach this BEFORE tidyverse**
+library(fasterize) # Read in fasterize
+library(rnaturalearth) # Read in rnaturalearth
 ```
+
 
 Data from CDFW is read in and stored as "ca_spills". This data can be visualized in conjunction with a data that represents California's counties and their borders (CA_Counties_TIGER2016). "CA_Counties_TIGER2016" is stored as "ca_counties".
 
@@ -36,7 +39,7 @@ ca_spills <- read_sf(here("_posts", "2021-02-24-welcome", "data", "ds394"), laye
 
 ca_counties <- read_sf(here("_posts", "2021-02-24-welcome", "data", "ca_counties"), layer = "CA_Counties_TIGER2016") %>% 
   clean_names() %>% 
-  select(name)
+  dplyr::select(name)
 
 ca_counties <- st_transform(ca_counties, st_crs(ca_spills)) #Convert ca_counties from NAD84 to NAD83 so CRS matches
 ```
@@ -126,3 +129,100 @@ Some conclusions from the above visualizations:
 
 Oil Spill Incident Tracking [ds394], Edition 2008, Publication date 2009-07-23. Marine data are entries from OSPR Oil Spill Prevention Specialists (OSPS) and is accurate to 98%. Inland data is based on California Emergency Management Agency (Cal EMA) reports and is only as accurate as the reporting party.Credits: Cal EMA, DFG-OSPR
 
+
+# Part Two-Spatial Exploration of Coastal California Cetacean Species Richness
+
+### Introduction
+
+35 rasters that correspond to various cetacean species that are found off the California coast are used to explore species richness. Raster data layers are from AquaMaps (https://www.aquamaps.org/search.php).   
+
+
+### Cetacean Rasters
+
+The AquaMaps cetecean raster data layers are read in using "list.files()". Rather than reading in 35 individual raster layers, raster::stack() can be used to create a single data frame containing the rasters representing cetacean species. 
+
+```{r, include = FALSE}
+ca_cetacean_file <- list.files(here("_posts", "2021-02-24-welcome", "data", "ca_cetaceans"), full.names = TRUE)
+
+cetacean_stack <- raster::stack(ca_cetacean_file)
+
+cetacean_stack
+```
+
+
+### Threshold Model
+
+The raster layers present the probability of the presence of a cetacean between zero and one within cells covering a geographic range of California's coast. This range covers the San Francisco Bay Area down to the California-Mexico border. By creating a threshold function that utilizes these probabilities, the rasters can be converted to display whether a cetacean is considered present or not at a particular area. For the purposes of this analysis a probability of 0.6 is utilized to determine whether a cetacean species is present or not. The "calc()" is used in conjunction with the created threshold function to create presence rasters for the cetacean species. 
+
+```{r}
+is_cetacean <- function(x, thresh = .6) {
+  y <- ifelse(x >= thresh, 1, 0)
+  return(y)
+}
+
+ca_cetacean_presence <- calc(cetacean_stack, fun = is_cetacean)
+
+plot(ca_cetacean_presence, col = "blue")
+
+```
+
+**Figure 1**: Plots of AquaMaps Cetacean Rasters. Data: AquaMaps-Kaschner, K., Rius-Barile, J., Kesner-Reyes, K., Garilao, C., Kullander, S., Rees, T., & Froese, R. (2016)
+
+
+An additional usage of the "calc()" sums the presence rasters into a single raster that can be used for visualization. Before visualizing the raster it must be converted into a dataframe which is accomplished using "rasterToPoints() %>% as.data.frame()"  
+
+```{r}
+
+
+cetacean_richness <- calc(ca_cetacean_presence, fun = sum, na.rm = TRUE)
+
+cetacean_df <-  raster::rasterToPoints(cetacean_richness) %>%
+  as.data.frame()
+
+plot(cetacean_richness)
+
+```
+
+**Figure 2**: Raster of Cetacean Species Richness. Data: AquaMaps-Kaschner, K., Rius-Barile, J., Kesner-Reyes, K., Garilao, C., Kullander, S., Rees, T., & Froese, R. (2016)
+
+
+### Cetacean Species Richness Visualization 
+
+A visualization of cetacean species richness can be created using the dataframe of cetacean species richness. Before visualizing species richness an map of California's coast is needed. This can be read in from the rnaturalarth package using "ne_download()". The spatial dataframe is filtered to provide California. 
+
+
+```{r, cache= TRUE, include = FALSE}
+california <- ne_download(scale = "large", type = "states", category = "cultural", returnclass = "sf") %>% 
+  filter(name %in% c("California", "Nevada"))
+```
+
+```{r}
+ggplot(data = california) +
+  geom_sf() 
+```
+
+**Figure 3** Map of California and Nevada. Data: Natural Earth (https://www.naturalearthdata.com/)
+
+
+```{r}
+ggplot() +
+geom_raster(data = cetacean_df, aes(x = x, y = y, fill = layer)) +
+  geom_sf(data = california) +
+  coord_sf(xlim = c(-125,-116), ylim = c(32,38)) +
+  labs(
+    title = "California Cetacean Species Richness",
+    fill = "Number of Cetacean Species",
+    x = "Longitude",
+    y = "Latitude") +
+  theme_classic() +
+  theme(panel.background = element_rect(fill = 'black'))
+```
+
+**Figure 4**: California Cetacean Species Richness. Species richness was determined by combining individual rasters into a single raster and converting this raster into a dataframe. Species richness is greatest near the coast and to the South. Species presence was determined using a function with a 0.6 threshold, with a 0.6 or greater chance of occurrence classified as the species being present and less then 0.6 classified as non-occurrence. Data: AquaMaps-Kaschner, K., Rius-Barile, J., Kesner-Reyes, K., Garilao, C., Kullander, S., Rees, T., & Froese, R. (2016)
+
+
+
+
+### Citation
+
+Kaschner, K., K. Kesner-Reyes, C. Garilao, J. Segschneider, J. Rius-Barile, T. Rees, and R. Froese. 2019. AquaMaps: Predicted range maps for aquatic species. World wide web electronic publication, www.aquamaps.org, Version 10/2019.
